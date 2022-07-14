@@ -1,0 +1,44 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+package org.apache.flink.formats.protobuf.proto;
+option java_package = "org.apache.flink.formats.protobuf.testproto";
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+message MiniCardView {
+  .google.protobuf.Int64Value position = 1;
+  .google.protobuf.StringValue user_id = 2;
+  .google.protobuf.StringValue dd_district_id = 3;
+  .google.protobuf.Int64Value item_price = 4;
+  .google.protobuf.StringValue store_status = 5;
+  .google.protobuf.Timestamp uuid_ts = 6;
+  .google.protobuf.StringValue autocomplete_name = 7;
+  .google.protobuf.StringValue dd_login_id = 8;
+  .google.protobuf.StringValue dd_submarket_id = 9;
+  .google.protobuf.Int64Value reorder_subtotal = 10;
+  .google.protobuf.StringValue search_term = 11;
+  .google.protobuf.StringValue tab = 12;
+  .google.protobuf.Int64Value cuisine_id = 13;
+  .google.protobuf.StringValue cuisine_name = 14;
+  .google.protobuf.StringValue dd_ios_idfv_id = 15;
+  .google.protobuf.StringValue dd_zip_code = 16;
+}
