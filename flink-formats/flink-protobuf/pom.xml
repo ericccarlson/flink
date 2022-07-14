@@ -57,6 +57,13 @@ under the License.
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-table-runtime</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>${protoc.version}</version>
@@ -110,6 +117,7 @@ under the License.
 							<goal>run</goal>
 						</goals>
 						<configuration>
+							<includeStdTypes>true</includeStdTypes>
 							<protocVersion>${protoc.version}</protocVersion>
 							<inputDirectories>
 								<include>src/test/proto</include>
