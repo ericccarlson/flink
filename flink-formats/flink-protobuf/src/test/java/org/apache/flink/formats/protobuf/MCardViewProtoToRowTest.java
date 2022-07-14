@@ -11,27 +11,27 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MiniCardViewProtoToRowTest {
+public class MCardViewProtoToRowTest {
     @Test
     public void testMiniCardView() throws Exception {
         MCardView miniCardView =
                 MCardView.newBuilder()
-                        .setPosition(Int64Value.of(1))
-                        .setUserId(StringValue.of("2"))
-                        .setDdDistrictId(StringValue.of("3"))
-                        .setItemPrice(Int64Value.of(4))
-                        .setStoreStatus(StringValue.of("5"))
+                        .setPosition(Int64Value.of(0))
+                        .setUserId(StringValue.of("1"))
+                        .setDdDistrictId(StringValue.of("2"))
+                        .setItemPrice(Int64Value.of(3))
+                        .setStoreStatus(StringValue.of("4"))
                         .setUuidTs(Timestamp.newBuilder().build())
-                        .setAutocompleteName(StringValue.of("7"))
-                        .setDdLoginId(StringValue.of("8"))
-                        .setDdSubmarketId(StringValue.of("9"))
-                        .setReorderSubtotal(Int64Value.of(10))
-                        .setSearchTerm(StringValue.of("11"))
-                        .setTab(StringValue.of("12"))
-                        .setCuisineId(Int64Value.of(13))
-                        .setCuisineName(StringValue.of("14"))
-                        .setDdIosIdfvId(StringValue.of("15"))
-                        .setDdZipCode(StringValue.of("16"))
+                        .setAutocompleteName(StringValue.of("6"))
+                        .setDdLoginId(StringValue.of("7"))
+                        .setDdSubmarketId(StringValue.of("8"))
+                        .setReorderSubtotal(Int64Value.of(9))
+                        .setSearchTerm(StringValue.of("10"))
+                        .setTab(StringValue.of("11"))
+                        .setCuisineId(Int64Value.of(12))
+                        .setCuisineName(StringValue.of("13"))
+                        .setDdIosIdfvId(StringValue.of("14"))
+                        .setDdZipCode(StringValue.of("15"))
                         .build();
 
         RowData row =
