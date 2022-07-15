@@ -24,6 +24,7 @@ import org.apache.flink.formats.protobuf.PbFormatConfig;
 import org.apache.flink.formats.protobuf.util.PbFormatUtils;
 import org.apache.flink.formats.protobuf.util.PbSchemaValidatorUtils;
 import org.apache.flink.table.data.RowData;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.RowType;
 
 import java.io.IOException;
@@ -42,26 +43,44 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 public class PbRowDataDeserializationSchema implements DeserializationSchema<RowData> {
     private static final long serialVersionUID = 1L;
 
-    private final RowType rowType;
+    // private final RowType rowType;
+    private final DataType dataType;
     private final TypeInformation<RowData> resultTypeInfo;
     private final PbFormatConfig formatConfig;
     private transient ProtoToRowConverter protoToRowConverter;
 
+    //    public PbRowDataDeserializationSchema(
+    //            RowType rowType, TypeInformation<RowData> resultTypeInfo, PbFormatConfig
+    // formatConfig) {
+    //        checkNotNull(rowType, "rowType cannot be null");
+    //        this.rowType = rowType;
+    //        this.resultTypeInfo = resultTypeInfo;
+    //        this.formatConfig = formatConfig;
+    //        // do it in client side to report error in the first place
+    //        PbSchemaValidatorUtils.validate(
+    //                PbFormatUtils.getDescriptor(formatConfig.getMessageClassName()), rowType);
+    //        // this step is only used to validate codegen in client side in the first place
+    //    }
+
     public PbRowDataDeserializationSchema(
-            RowType rowType, TypeInformation<RowData> resultTypeInfo, PbFormatConfig formatConfig) {
+            DataType dataType,
+            TypeInformation<RowData> resultTypeInfo,
+            PbFormatConfig formatConfig) {
+        final RowType rowType = (RowType) dataType.getLogicalType();
+        // final TypeInformation<RowData> rowDataTypeInfo =
+        // context.createTypeInformation(producedDataType);
         checkNotNull(rowType, "rowType cannot be null");
-        this.rowType = rowType;
+        // this.rowType = rowType;
+        this.dataType = dataType;
         this.resultTypeInfo = resultTypeInfo;
         this.formatConfig = formatConfig;
-        // do it in client side to report error in the first place
         PbSchemaValidatorUtils.validate(
                 PbFormatUtils.getDescriptor(formatConfig.getMessageClassName()), rowType);
-        // this step is only used to validate codegen in client side in the first place
     }
 
     @Override
     public void open(InitializationContext context) throws Exception {
-        protoToRowConverter = new ProtoToRowConverter(rowType, formatConfig);
+        protoToRowConverter = new ProtoToRowConverter(dataType, formatConfig);
     }
 
     @Override
@@ -95,13 +114,13 @@ public class PbRowDataDeserializationSchema implements DeserializationSchema<Row
             return false;
         }
         PbRowDataDeserializationSchema that = (PbRowDataDeserializationSchema) o;
-        return Objects.equals(rowType, that.rowType)
+        return Objects.equals(dataType, that.dataType)
                 && Objects.equals(resultTypeInfo, that.resultTypeInfo)
                 && Objects.equals(formatConfig, that.formatConfig);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rowType, resultTypeInfo, formatConfig);
+        return Objects.hash(dataType, resultTypeInfo, formatConfig);
     }
 }

@@ -31,6 +31,7 @@ import org.apache.flink.table.data.GenericMapData;
 import org.apache.flink.table.data.GenericRowData;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.data.binary.BinaryStringData;
+import org.apache.flink.table.types.DataType;
 import org.apache.flink.table.types.logical.RowType;
 
 import com.google.protobuf.ByteString;
@@ -43,9 +44,11 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -56,10 +59,28 @@ public class ProtoToRowConverter {
     private static final Logger LOG = LoggerFactory.getLogger(ProtoToRowConverter.class);
     private final Method parseFromMethod;
     private final Method decodeMethod;
+    private final ProtobufMapper mapper;
+    // private final RowType rowType;
+    private final DataType dataType;
 
-    public ProtoToRowConverter(RowType rowType, PbFormatConfig formatConfig)
+    public ProtoToRowConverter(DataType dataType, PbFormatConfig formatConfig)
             throws PbCodegenException {
         try {
+            this.dataType = dataType;
+            String messageClassName = formatConfig.getMessageClassName();
+            Class<?> protoClass = Class.forName(messageClassName);
+            System.out.printf("protoClass:\t%s\n", protoClass.getName());
+            Optional<Class<?>> optBuilderClass =
+                    Arrays.stream(protoClass.getDeclaredClasses())
+                            .filter(o -> o.getName().endsWith("$Builder"))
+                            .findFirst();
+            if (!optBuilderClass.isPresent()) {
+                throw new RuntimeException("builderClass is not present");
+            }
+            Class<?> builderClass = optBuilderClass.get();
+            System.out.printf("builderClass:\t%s\n", builderClass.getName());
+            mapper = new ProtobufMapper(builderClass, protoClass);
+
             String outerPrefix =
                     PbFormatUtils.getOuterProtoPrefix(formatConfig.getMessageClassName());
             Descriptors.Descriptor descriptor =
@@ -105,6 +126,8 @@ public class ProtoToRowConverter {
                             + fullMessageClassName
                             + " message){");
             codegenAppender.appendLine("RowData rowData=null");
+
+            RowType rowType = (RowType) dataType.getLogicalType();
             PbCodegenDeserializer codegenDes =
                     PbCodegenDeserializeFactory.getPbCodegenTopRowDes(
                             descriptor, rowType, pbFormatContext);
@@ -133,5 +156,10 @@ public class ProtoToRowConverter {
     public RowData convertProtoBinaryToRow(byte[] data) throws Exception {
         Object messageObj = parseFromMethod.invoke(null, data);
         return (RowData) decodeMethod.invoke(null, messageObj);
+        //        Row messageRow = mapper.parseValue(data);
+        //         RowData messageRowData = (RowData)
+        //                DataStructureConverters.getConverter(dataType).toInternal(messageRow);
+        //        RowRowConverter.create(dataType).toInternal(messageRow);
+        //        return messageRowData;
     }
 }

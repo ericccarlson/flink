@@ -54,6 +54,10 @@ public class PbFormatUtils {
     }
 
     public static String getFullJavaName(Descriptors.Descriptor descriptor, String outerProtoName) {
+        if (descriptor.getFullName().startsWith("google.protobuf")) {
+            // System.out.println(descriptor.getFullName());
+            return "com.google.protobuf." + descriptor.getName();
+        }
         if (null != descriptor.getContainingType()) {
             // nested type
             String parentJavaFullName =
@@ -121,7 +125,7 @@ public class PbFormatUtils {
                     pbClass.getMethod(PbConstant.PB_METHOD_GET_DESCRIPTOR).invoke(null);
         } catch (Exception e) {
             throw new IllegalArgumentException(
-                    String.format("get %s descriptors error!", className), e);
+                    String.format("get %s descriptors error!\n" + e.getMessage(), className), e);
         }
     }
 

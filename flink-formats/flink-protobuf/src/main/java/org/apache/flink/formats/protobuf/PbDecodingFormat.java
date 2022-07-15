@@ -42,7 +42,7 @@ public class PbDecodingFormat implements DecodingFormat<DeserializationSchema<Ro
         final RowType rowType = (RowType) producedDataType.getLogicalType();
         final TypeInformation<RowData> rowDataTypeInfo =
                 context.createTypeInformation(producedDataType);
-        return new PbRowDataDeserializationSchema(rowType, rowDataTypeInfo, formatConfig);
+        return new PbRowDataDeserializationSchema(producedDataType, rowDataTypeInfo, formatConfig);
     }
 
     @Override
