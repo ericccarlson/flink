@@ -1,7 +1,6 @@
 package org.apache.flink.formats.protobuf;
 
 import org.apache.flink.formats.protobuf.testproto.MCardView;
-import org.apache.flink.formats.protobuf.testproto.MiniCardView;
 import org.apache.flink.table.data.RowData;
 
 import com.google.protobuf.Int64Value;
@@ -13,8 +12,8 @@ import static org.junit.Assert.assertEquals;
 
 public class MCardViewProtoToRowTest {
     @Test
-    public void testMiniCardView() throws Exception {
-        MCardView miniCardView =
+    public void testMCardView() throws Exception {
+        MCardView mCardView =
                 MCardView.newBuilder()
                         .setPosition(Int64Value.of(0))
                         .setUserId(StringValue.of("1"))
@@ -35,7 +34,7 @@ public class MCardViewProtoToRowTest {
                         .build();
 
         RowData row =
-                ProtobufTestHelper.pbBytesToRow(MiniCardView.class, miniCardView.toByteArray());
+                ProtobufTestHelper.pbBytesToRow(MCardView.class, mCardView.toByteArray());
 
         assertEquals(16, row.getArity());
         assertEquals(1, row.getRow(0, 1).getLong(0));

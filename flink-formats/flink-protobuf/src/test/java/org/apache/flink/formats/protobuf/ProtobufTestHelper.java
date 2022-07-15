@@ -25,6 +25,7 @@ import org.apache.flink.formats.protobuf.util.PbFormatUtils;
 import org.apache.flink.formats.protobuf.util.PbToRowTypeUtil;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
@@ -53,7 +54,9 @@ public class ProtobufTestHelper {
 
         DataType rowDataType = fromLogicalToDataType(rowType);
         Row row =
-                (Row) DataFormatConverters.getConverterForDataType(rowDataType).toExternal(rowData);
+                (Row)
+                        DataFormatConverters.getConverterForDataType(rowDataType)
+                                .toExternal(rowData); // TODO
         TypeInformation<Row> rowTypeInfo =
                 (TypeInformation<Row>) TypeConversions.fromDataTypeToLegacyInfo(rowDataType);
         DataStream<Row> rows = env.fromCollection(Collections.singletonList(row), rowTypeInfo);
@@ -112,9 +115,11 @@ public class ProtobufTestHelper {
         RowType rowType =
                 PbToRowTypeUtil.generateRowType(
                         PbFormatUtils.getDescriptor(messageClass.getName()), enumAsInt);
+        DataType dataType = DataTypes.of(rowType);
+
         PbRowDataDeserializationSchema deserializationSchema =
                 new PbRowDataDeserializationSchema(
-                        rowType, InternalTypeInfo.of(rowType), formatConfig);
+                        dataType, InternalTypeInfo.of(rowType), formatConfig);
         deserializationSchema.open(null);
         RowData row = deserializationSchema.deserialize(bytes);
         return ProtobufTestHelper.validateRow(row, rowType);

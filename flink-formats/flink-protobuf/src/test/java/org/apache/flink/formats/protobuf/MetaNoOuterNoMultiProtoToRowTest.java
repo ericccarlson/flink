@@ -18,11 +18,9 @@
 
 package org.apache.flink.formats.protobuf;
 
-import org.apache.flink.formats.protobuf.deserialize.PbRowDataDeserializationSchema;
 import org.apache.flink.formats.protobuf.serialize.PbRowDataSerializationSchema;
 import org.apache.flink.formats.protobuf.testproto.TestSimpleNoouterNomulti;
 import org.apache.flink.formats.protobuf.util.PbToRowTypeUtil;
-import org.apache.flink.table.runtime.typeutils.InternalTypeInfo;
 import org.apache.flink.table.types.logical.RowType;
 
 import org.junit.Test;
@@ -51,8 +49,8 @@ public class MetaNoOuterNoMultiProtoToRowTest {
                         false,
                         false,
                         "");
-        new PbRowDataDeserializationSchema(rowType, InternalTypeInfo.of(rowType), formatConfig)
-                .open(null);
+        // new PbRowDataDeserializationSchema(rowType, InternalTypeInfo.of(rowType), formatConfig)
+        //        .open(null); TODO
 
         new PbRowDataSerializationSchema(rowType, formatConfig).open(null);
         // validation success
@@ -69,8 +67,8 @@ public class MetaNoOuterNoMultiProtoToRowTest {
                         false,
                         false,
                         "");
-        new PbRowDataDeserializationSchema(rowType, InternalTypeInfo.of(rowType), formatConfig)
-                .open(null);
+        // new PbRowDataDeserializationSchema(rowType, InternalTypeInfo.of(rowType), formatConfig)
+        //        .open(null); TODO
         new PbRowDataSerializationSchema(rowType, formatConfig).open(null);
         // validation success
     }
