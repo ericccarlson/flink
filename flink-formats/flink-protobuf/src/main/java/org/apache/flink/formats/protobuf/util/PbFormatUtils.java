@@ -124,8 +124,10 @@ public class PbFormatUtils {
             return (Descriptors.Descriptor)
                     pbClass.getMethod(PbConstant.PB_METHOD_GET_DESCRIPTOR).invoke(null);
         } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Sub-message: " + e.getMessage());
             throw new IllegalArgumentException(
-                    String.format("get %s descriptors error!\n" + e.getMessage(), className), e);
+                    String.format("get %s descriptors error!", className), e);
         }
     }
 
