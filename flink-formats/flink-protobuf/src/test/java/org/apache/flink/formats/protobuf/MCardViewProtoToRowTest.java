@@ -15,6 +15,7 @@ public class MCardViewProtoToRowTest {
     public void testMCardView() throws Exception {
         MCardView mCardView =
                 MCardView.newBuilder()
+                        .setUuidTs(Timestamp.newBuilder().setSeconds(10).setNanos(10).build())
                         .setPosition(Int64Value.of(0))
                         .setUserId(StringValue.of("1"))
                         .setDdDistrictId(StringValue.of("2"))
@@ -33,25 +34,25 @@ public class MCardViewProtoToRowTest {
                         .setDdZipCode(StringValue.of("15"))
                         .build();
 
-        RowData row =
-                ProtobufTestHelper.pbBytesToRow(MCardView.class, mCardView.toByteArray());
+        RowData row = ProtobufTestHelper.pbBytesToRow(MCardView.class, mCardView.toByteArray());
 
-        assertEquals(16, row.getArity());
-        assertEquals(1, row.getRow(0, 1).getLong(0));
-        assertEquals("2", row.getRow(1, 1).getString(0).toString());
-        assertEquals("3", row.getRow(2, 1).getString(0).toString());
-        assertEquals(4, row.getRow(3, 1).getLong(0));
-        assertEquals("5", row.getRow(4, 1).getString(0).toString());
-        // assertEquals(Timestamp, Timestamp);
-        assertEquals("7", row.getRow(6, 1).getString(0).toString());
-        assertEquals("8", row.getRow(7, 1).getString(0).toString());
-        assertEquals("9", row.getRow(8, 1).getString(0).toString());
-        assertEquals(10, row.getRow(9, 1).getLong(0));
-        assertEquals("11", row.getRow(10, 1).getString(0).toString());
-        assertEquals("12", row.getRow(11, 1).getString(0).toString());
-        assertEquals(13, row.getRow(12, 1).getLong(0));
-        assertEquals("14", row.getRow(13, 1).getString(0).toString());
-        assertEquals("15", row.getRow(14, 1).getString(0).toString());
-        assertEquals("16", row.getRow(15, 1).getString(0).toString());
+        assertEquals(229, row.getArity());
+        row.getRow(16, 1).getTimestamp(0, 0);
+
+        assertEquals(0, row.getRow(0, 1).getLong(0));
+        assertEquals("1", row.getRow(1, 1).getString(0).toString());
+        assertEquals("2", row.getRow(2, 1).getString(0).toString());
+        assertEquals(3, row.getRow(3, 1).getLong(0));
+        assertEquals("4", row.getRow(4, 1).getString(0).toString());
+        assertEquals("6", row.getRow(6, 1).getString(0).toString());
+        assertEquals("7", row.getRow(7, 1).getString(0).toString());
+        assertEquals("8", row.getRow(8, 1).getString(0).toString());
+        assertEquals(9, row.getRow(9, 1).getLong(0));
+        assertEquals("10", row.getRow(10, 1).getString(0).toString());
+        assertEquals("11", row.getRow(11, 1).getString(0).toString());
+        assertEquals(12, row.getRow(12, 1).getLong(0));
+        assertEquals("13", row.getRow(13, 1).getString(0).toString());
+        assertEquals("14", row.getRow(14, 1).getString(0).toString());
+        assertEquals("15", row.getRow(15, 1).getString(0).toString());
     }
 }
