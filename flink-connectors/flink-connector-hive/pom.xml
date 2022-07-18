@@ -408,6 +408,10 @@ under the License.
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
+					<groupId>org.pentaho</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>org.apache.hive</groupId>
 					<artifactId>hive-vector-code-gen</artifactId>
 				</exclusion>
