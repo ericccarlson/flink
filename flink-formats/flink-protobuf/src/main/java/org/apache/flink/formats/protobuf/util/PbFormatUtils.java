@@ -118,6 +118,7 @@ public class PbFormatUtils {
     }
 
     public static Descriptors.Descriptor getDescriptor(String className) {
+        System.out.println("GENERATED DESCRIPTOR, " + PbFormatUtils.class);
         try {
             Class<?> pbClass =
                     Class.forName(className, true, Thread.currentThread().getContextClassLoader());

@@ -80,11 +80,13 @@ public class PbRowDataDeserializationSchema implements DeserializationSchema<Row
 
     @Override
     public void open(InitializationContext context) throws Exception {
+        System.out.println("OPENED, " + this.getClass());
         protoToRowConverter = new ProtoToRowConverter(dataType, formatConfig);
     }
 
     @Override
     public RowData deserialize(byte[] message) throws IOException {
+        System.out.println("USED TO DESERIALIZE, " + this.getClass());
         try {
             return protoToRowConverter.convertProtoBinaryToRow(message);
         } catch (Throwable t) {
