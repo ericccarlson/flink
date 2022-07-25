@@ -2223,4 +2223,16 @@ under the License.
 		</pluginManagement>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>libs-release-local</id>
+			<name>ddartifacts libs-release-local</name>
+			<url>https://ddartifacts.jfrog.io/ddartifacts/libs-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>libs-snapshot-local</id>
+			<name>ddartifacts libs-snapshot-local</name>
+			<url>https://ddartifacts.jfrog.io/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
