@@ -51,7 +51,6 @@ public class PbToRowTypeUtil {
             FieldDescriptor field = root.getFields().get(i);
             rowFieldNames[i] = field.getName();
             types[i] = generateFieldTypeInformation(field, enumAsInt);
-            // System.out.printf("%s\t%s\n", rowFieldNames[i], types[i].getClass().getName());
         }
         return RowType.of(types, rowFieldNames);
     }
