@@ -115,6 +115,8 @@ public class ProtobufTestHelper {
         RowType rowType =
                 PbToRowTypeUtil.generateRowType(
                         PbFormatUtils.getDescriptor(messageClass.getName()), enumAsInt);
+        System.out.println("RowType: " + rowType);
+
         DataType dataType = DataTypes.of(rowType);
 
         PbRowDataDeserializationSchema deserializationSchema =

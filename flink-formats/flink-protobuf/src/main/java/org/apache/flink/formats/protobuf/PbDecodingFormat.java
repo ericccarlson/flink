@@ -26,7 +26,6 @@ import org.apache.flink.table.connector.format.DecodingFormat;
 import org.apache.flink.table.connector.source.DynamicTableSource;
 import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
-import org.apache.flink.table.types.logical.RowType;
 
 /** {@link DecodingFormat} for protobuf decoding. */
 public class PbDecodingFormat implements DecodingFormat<DeserializationSchema<RowData>> {
@@ -39,7 +38,6 @@ public class PbDecodingFormat implements DecodingFormat<DeserializationSchema<Ro
     @Override
     public DeserializationSchema<RowData> createRuntimeDecoder(
             DynamicTableSource.Context context, DataType producedDataType) {
-        final RowType rowType = (RowType) producedDataType.getLogicalType();
         final TypeInformation<RowData> rowDataTypeInfo =
                 context.createTypeInformation(producedDataType);
         return new PbRowDataDeserializationSchema(producedDataType, rowDataTypeInfo, formatConfig);
