@@ -42,35 +42,17 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  */
 public class PbRowDataDeserializationSchema implements DeserializationSchema<RowData> {
     private static final long serialVersionUID = 1L;
-
-    // private final RowType rowType;
     private final DataType dataType;
     private final TypeInformation<RowData> resultTypeInfo;
     private final PbFormatConfig formatConfig;
     private transient ProtoToRowConverter protoToRowConverter;
-
-    //    public PbRowDataDeserializationSchema(
-    //            RowType rowType, TypeInformation<RowData> resultTypeInfo, PbFormatConfig
-    // formatConfig) {
-    //        checkNotNull(rowType, "rowType cannot be null");
-    //        this.rowType = rowType;
-    //        this.resultTypeInfo = resultTypeInfo;
-    //        this.formatConfig = formatConfig;
-    //        // do it in client side to report error in the first place
-    //        PbSchemaValidatorUtils.validate(
-    //                PbFormatUtils.getDescriptor(formatConfig.getMessageClassName()), rowType);
-    //        // this step is only used to validate codegen in client side in the first place
-    //    }
 
     public PbRowDataDeserializationSchema(
             DataType dataType,
             TypeInformation<RowData> resultTypeInfo,
             PbFormatConfig formatConfig) {
         final RowType rowType = (RowType) dataType.getLogicalType();
-        // final TypeInformation<RowData> rowDataTypeInfo =
-        // context.createTypeInformation(producedDataType);
         checkNotNull(rowType, "rowType cannot be null");
-        // this.rowType = rowType;
         this.dataType = dataType;
         this.resultTypeInfo = resultTypeInfo;
         this.formatConfig = formatConfig;
